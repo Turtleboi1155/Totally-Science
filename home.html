@@ -1,1 +1,163 @@
-<h1> Happily schiene</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RGB Game Hub</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui;
+      color: white;
+      background: black;
+      overflow-x: hidden;
+    }
+
+    /* RGB animated background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(120deg,#ff0000,#00ff00,#0000ff);
+      background-size: 400% 400%;
+      animation: rgb 10s infinite alternate;
+    }
+
+    @keyframes rgb {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.7);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 1000px;
+      height: 80vh;
+      background: black;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0 0 20px 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎮 RGB Game Hub</h1>
+
+<div class="grid">
+  <div class="card">
+    <h2>Slope</h2>
+    <button onclick="play('https://slopegame.io')">Play</button>
+  </div>
+
+  <div class="card">
+    <h2>1v1.lol</h2>
+    <button onclick="play('https://1v1.lol')">Play</button>
+  </div>
+
+  <div class="card">
+    <h2>Krunker</h2>
+    <button onclick="play('https://krunker.io')">Play</button>
+  </div>
+
+  <div class="card">
+    <h2>Shell Shockers</h2>
+    <button onclick="play('https://shellshock.io')">Play</button>
+  </div>
+
+  <div class="card">
+    <h2>Agar.io</h2>
+    <button onclick="play('https://agar.io')">Play</button>
+  </div>
+
+  <div class="card">
+    <h2>Subway Surfers</h2>
+    <button onclick="play('https://poki.com/en/g/subway-surfers')">Play</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="gameTitle"></h3>
+      <button onclick="closeGame()">Close</button>
+    </div>
+    <iframe id="gameFrame"></iframe>
+  </div>
+</div>
+
+<script>
+function play(url) {
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('gameFrame').src = url;
+}
+
+function closeGame() {
+  document.getElementById('modal').style.display = 'none';
+  document.getElementById('gameFrame').src = '';
+}
+</script>
+
+</body>
+</html>
