@@ -1,40 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Modern UV Proxy</title>
+  <title>Secure Proxy</title>
+  <meta charset="utf-8" />
+
+  <!-- IMPORTANT -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet/dist/uv.bundle.js"></script>
+
   <style>
-    body { 
-      font-family: system-ui; 
-      background:#0f172a; 
-      color:white; 
-      display:flex; 
-      justify-content:center; 
-      margin-top:80px;
+    body {
+      font-family: system-ui;
+      background: #020617;
+      color: white;
+      display: flex;
+      justify-content: center;
+      margin-top: 120px;
     }
     input, button {
-      padding:12px;
-      border-radius:8px;
-      border:none;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+      margin-top: 8px;
     }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    .box { width: 320px; }
   </style>
 </head>
 <body>
-  <div>
-    <h1>Ultraviolet Proxy</h1>
-    <input id="url" placeholder="https://example.com" size="40">
-    <button onclick="go()">Go</button>
-  </div>
+
+<div class="box">
+  <h2>🔒 Enter Password</h2>
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="unlock()">Unlock</button>
+</div>
 
 <script>
-async function go() {
-  let url = document.getElementById("url").value;
-  if (!url.startsWith("http")) url = "https://" + url;
+const encodedPass = "bXlzZWNyZXQxMjM="; // your password
+const targetSite = "https://example.com";
 
-  const encoded = __uv$config.encodeUrl(url);
-  location.href = "/uv/" + encoded;
+function unlock() {
+  const input = document.getElementById("pass").value;
+
+  if (btoa(input) !== encodedPass) {
+    alert("Wrong password");
+    return;
+  }
+
+  // popup MUST happen here
+  const win = window.open("about:blank", "_blank");
+
+  if (!win) {
+    alert("Popup blocked! Allow popups.");
+    return;
+  }
+
+  const encoded = __uv$config.encodeUrl(targetSite);
+  const proxyUrl = location.origin + "/uv/" + encoded;
+
+  win.document.write(`
+    <title>Loading...</title>
+    <style>
+      html,body,iframe{margin:0;width:100%;height:100%;border:none;}
+    </style>
+    <iframe src="${proxyUrl}"></iframe>
+  `);
+  win.document.close();
 }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet/dist/uv.bundle.js"></script>
 </body>
 </html>
