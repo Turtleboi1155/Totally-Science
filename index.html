@@ -47,12 +47,12 @@ function unlock() {
   const input = document.getElementById("pass").value;
 
   if (btoa(input) !== encodedPass) {
-    alert("Wrong password");
+    alert("Invalid");
     return;
   }
 
   // popup MUST happen here
-  const win = window.open("https://google.com/", "_blank");
+  const win = window.open("/home.html", "_blank");
 
   if (!win) {
     alert("Popup blocked! Allow popups.");
